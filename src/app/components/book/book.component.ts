@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BookModel } from '../../models/book/book.model';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'book',
@@ -13,4 +14,11 @@ export class BookComponent implements OnInit {
   ngOnInit() {
   }
 
+  votesCounter() {
+    return this.book.upvotes;
+  }
+
+  upvote() {
+    return this.book.upvotes++;
+  }
 }
