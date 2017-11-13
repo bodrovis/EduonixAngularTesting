@@ -31,6 +31,21 @@ describe('BookComponent', () => {
     nativeElement = fixture.nativeElement;
   });
 
+  it('should emit addToCart event', (done) => {
+    component.addToCart.subscribe(e => {
+      expect(e).toEqual(component.book);
+      done();
+    });
+    component.sendToCart();
+  });
+
+  it('should call to a function sendToCart when clicked', () => {
+    let spy = spyOn(component, 'sendToCart');
+    let button = nativeElement.querySelector('button.send-to-cart');
+    button.dispatchEvent(new Event('click'));
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -70,7 +85,7 @@ describe('BookComponent', () => {
   it('upvote invokes the component function', () => {
     let spy = spyOn(component, 'upvote');
     let button = nativeElement.querySelector('button.upvote');
-    button.click();
+    button.dispatchEvent(new Event('click'));
     expect(spy).toHaveBeenCalled();
   });
 });
