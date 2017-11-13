@@ -13,4 +13,37 @@ export class BookModel implements BookInterface {
     public price: number,
     public upvotes: number = 0
   ) { }
-}
+
+  destroy() {
+    let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
+    books.forEach((item, index) => {
+      if (item.title == this.title) {
+        books.splice(index, 1);
+        localStorage.setItem('books', JSON.stringify(books));
+      }
+    });
+    return null;
+  }
+
+  save() {
+    let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
+    books.forEach((item, index) => {
+      if (item.title == this.title) books.splice(index, 1);
+    });
+    books.push(this);
+    localStorage.setItem('books', JSON.stringify(books));
+    return true;
+  }
+
+  public static find(title: string) {
+    let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
+    for (let book of books) {
+      if (book.title == title) return new BookModel(book.image,
+        book.title,
+        book.description,
+        book.price,
+        book.upvotes)
+      }
+      return null;
+    }
+  }

@@ -8,12 +8,37 @@ describe('BookModel', () => {
   let price: number;
   let upvotes: number;
 
+  let book: BookModel;
+
   beforeEach(() => {
     image = faker.image.image();
     title = faker.lorem.words();
     description = faker.lorem.sentence();
     price = faker.commerce.price();
     upvotes = faker.random.number();
+    this.book = new BookModel(image, title, description, price, upvotes);
+
+    let storage = {};
+
+    spyOn(window.localStorage, 'getItem').and.callFake((key: string):string => {
+      return storage[key] || null;
+    });
+
+    spyOn(window.localStorage, 'removeItem').and.callFake((key: string):void => {
+      delete storage[key];
+    });
+
+    spyOn(window.localStorage, 'setItem').and.callFake((key: string, value: string):string => {
+      return storage[key] = <string>value;
+    });
+
+    spyOn(window.localStorage, 'clear').and.callFake(() => {
+      storage = {};
+    });
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   it('has a valid model', () => {
