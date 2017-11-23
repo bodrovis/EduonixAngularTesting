@@ -7,7 +7,8 @@ import { AppComponent } from './app.component';
 import { BookComponent } from './components/book/book.component';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { BookEditComponent } from './components/book-edit/book-edit.component';
-import { TreeComponent } from './tree/tree.component';
+import { TreeComponent } from './components/tree/tree.component';
+import { NgInitDirective } from './directive/ng-init/ng-init.directive';
 
 const bookRoutes: Routes = [
   { path: 'books/:title', component: BookComponent },
@@ -26,7 +27,8 @@ const bookRoutes: Routes = [
     BookComponent,
     BookListComponent,
     BookEditComponent,
-    TreeComponent
+    TreeComponent,
+    NgInitDirective
   ],
   imports: [
     RouterModule.forRoot(bookRoutes),

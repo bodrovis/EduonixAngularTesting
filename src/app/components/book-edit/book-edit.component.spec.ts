@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick  } from '@angular/core/testing';
 import { BookModel } from '../../models/book/book.model';
+import { TreeComponent } from '../../components/tree/tree.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as faker from 'faker';
 import { By }           from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BookEditComponent } from './book-edit.component';
+import { NgInitDirective } from '../../directive/ng-init/ng-init.directive';
 
 describe('BookEditComponent', () => {
   let component: BookEditComponent;
@@ -13,7 +15,7 @@ describe('BookEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BookEditComponent ],
+      declarations: [ BookEditComponent, TreeComponent, NgInitDirective ],
       imports: [ RouterTestingModule, ReactiveFormsModule, FormsModule ]
     })
     .compileComponents();
@@ -38,6 +40,41 @@ describe('BookEditComponent', () => {
     component.bookEditForm.controls['description'].setValue(description);
     component.bookEditForm.controls['price'].setValue(price);
   }
+
+  it('should have dynamic form working right',
+    fakeAsync(() => {
+      component.activeForm = 'dynamicForm';
+      fixture.detectChanges();
+      let form = component.bookEditDynamic;
+      let elements = component.question['children'];
+      let ethalonObject:any = {};
+
+      for(let el of elements) {
+        if(el.type == 'input') {
+          let value = faker.lorem.sentence();
+          form.get(el.paramName).setValue(value);
+          ethalonObject[el.paramName] = value;
+        }
+        if(el.type == 'select') {
+          let option = el.options[Math.floor(Math.random() * el.options.length)];
+          component.book[el.paramName] = option.paramName;
+          fixture.detectChanges();
+          ethalonObject[el.paramName] = option.paramName;
+        }
+        if(el.type == 'checkbox') {
+          form.controls[el.paramName].setValue(true);
+          ethalonObject[el.paramName] = true;
+        }
+      }
+
+      let button = fixture.debugElement.
+      query(By.css('button[type="submit"]')).nativeElement;
+
+      button.click();
+      let bookFromStorage = BookModel.find(ethalonObject['title']);
+      expect<any>(bookFromStorage).toEqual(component.book);
+    })
+  );
 
   it('should have title error if less than 3 symbols provided',
     fakeAsync(() => {

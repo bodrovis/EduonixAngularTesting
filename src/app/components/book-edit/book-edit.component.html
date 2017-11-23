@@ -12,6 +12,10 @@
   <div class="col-4">
     <a [routerLink]='' (click)='activeForm="templateDriven"'>Template Form</a>
   </div>
+
+  <div class="col-4">
+    <a [routerLink]='' (click)='activeForm="dynamicForm"'>Dynamic Form</a>
+  </div>
 </div>
 
 <form *ngIf='activeForm == "reactive"'
@@ -119,4 +123,19 @@
     </div>
   </div>
   <button type='submit' class='btn btn-primary'>Edit!</button>
+</form>
+
+<form *ngIf='activeForm == "dynamicForm"'
+[formGroup]='bookEditDynamic'
+(ngSubmit)='submitTemplateForm()' #dynamicForm='ngForm'>
+
+  Dynamic form
+  <tree [(question)]='question'
+  [(objectToFill)]='book' [(form)]='bookEditDynamic'></tree>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+
+  <div class='row'>
+    {{ book | json}}
+  </div>
 </form>

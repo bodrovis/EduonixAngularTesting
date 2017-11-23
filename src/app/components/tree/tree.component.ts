@@ -7,28 +7,28 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./tree.component.css']
 })
 export class TreeComponent implements OnInit {
+
   @Input() question: any;
   @Input() form: FormGroup;
   @Input() objectToFill: any;
 
-  @ViewChild('input') input: TemplateRef<any>;
-  @ViewChild('checkbox') checkbox: TemplateRef<any>;
-  @ViewChild('empty') empty: TemplateRef<any>;
-  @ViewChild('select') select: TemplateRef<any>;
+  @ViewChild('input') input:TemplateRef<any>;
+  @ViewChild('checkbox') checkbox:TemplateRef<any>;
+  @ViewChild('empty') empty:TemplateRef<any>;
+  @ViewChild('select') select:TemplateRef<any>;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   resolveTemplate(question) {
-    if(question == null) return this.empty;
-
+    console.log(question);
+    if (question == null) return this.empty;
     let template_name:string = question.type;
     return {
       'input': this.input,
       'checkbox': this.checkbox,
       'select': this.select
-    }[template_name];
+    }[template_name]
   }
 }
