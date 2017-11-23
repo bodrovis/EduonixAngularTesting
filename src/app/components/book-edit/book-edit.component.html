@@ -8,7 +8,73 @@
   <div class="col-4">
     <a [routerLink]='' (click)='activeForm="reactive"'>Reactive Form</a>
   </div>
+
+  <div class="col-4">
+    <a [routerLink]='' (click)='activeForm="templateDriven"'>Template Form</a>
+  </div>
 </div>
+
+<form *ngIf='activeForm == "templateDriven"' #templateForm='ngForm'>
+  <div class="row mt-3">
+    <div class="col-6">
+      Template-Driven Form
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 form-group title-group">
+      <label for="title2">Title</label>
+      <input [(ngModel)]='book.title' name='title2' type='text' id='title2'
+      class='title form-control' #title2='ngModel' minlength='3' required>
+      <div *ngIf='!title2.valid && (title2.dirty || title2.touched)'
+      class='invalid-feedback' style='display: block;'>
+        <div *ngIf='title2?.errors?.required'>
+          Title is required.
+        </div>
+        <div *ngIf='title2?.errors?.minlength'>
+          Title must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="image2">Image URL</label>
+      <input [(ngModel)]='book.image' name='image2' type='text' id='image2'
+      class='image form-control' #image2='ngModel' required>
+      <div *ngIf='!image2.valid && (image2.dirty || image2.touched)'
+      class='invalid-feedback' style='display: block;'>
+        <div *ngIf='image2?.errors?.required'>
+          Image URL is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for='description2'>Description</label>
+      <textarea [(ngModel)]='book.description' #description2='ngModel'
+      name='description2' class='description form-control'></textarea>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="price2">Price</label>
+      <input [(ngModel)]='book.price' name='price2' type='text' id='price2'
+      class='price form-control' #price2='ngModel'
+      required pattern='^\d+(,\d{3})*(\.\d*)?$'>
+
+      <div *ngIf='!price2.valid && (price2.dirty || price2.touched)'
+      class='invalid-feedback' style='display: block;'>
+        <div *ngIf='image2?.errors?.required'>
+          Price is required.
+        </div>
+
+        <div *ngIf='image2?.errors?.pattern'>
+          Please follow the format, for example 1000,000.15
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type='submit' class='btn btn-primary'>Edit!</button>
+</form>
 
 <form *ngIf='activeForm == "reactive"'
 [formGroup]='bookEditForm' (ngSubmit)='submitReactiveForm()' novalidate>
