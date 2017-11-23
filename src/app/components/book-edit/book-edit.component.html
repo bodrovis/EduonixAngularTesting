@@ -1,3 +1,59 @@
-<p>
-  book-edit works!
-</p>
+<div class="row">
+  <div class="col-12">
+    <h1>Edit a book {{book.title}}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-4">
+    <a [routerLink]='' (click)='activeForm="reactive"'>Reactive Form</a>
+  </div>
+</div>
+
+<form *ngIf='activeForm == "reactive"'
+[formGroup]='bookEditForm' (ngSubmit)='submitReactiveForm' novalidate>
+  <div class="row mt-3">
+    <div class="col-6">
+      Reactive Form
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 form-group">
+      <label for="title">Title</label>
+      <input formControlName='title' type='text' name='title'
+      class='title form-control'
+      [ngClass]='{ "is-invalid": bookEditForm.controls["title"].touched &&
+     bookEditForm.controls["title"].errors }'>
+     <div class="invalid-feedback">
+       Please provide a valid title!
+     </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="image">Image URL</label>
+      <input formControlName='image' type='text' name='image'
+      class='image form-control'
+      [ngClass]='{ "is-invalid": bookEditForm.controls["image"].touched &&
+     bookEditForm.controls["image"].errors }'>
+     <div class="invalid-feedback">
+       Please provide a valid image URL!
+     </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="description">Description</label>
+      <textarea formControlName='description'
+      class='description form-control'></textarea>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="price">Price</label>
+      <input formControlName='price' type='number' name='price'
+      class='price form-control'>
+    </div>
+  </div>
+
+  <button type="submit" id="reactiveSubmitButton" class="btn btn-primary"
+  [attr.disabled]="bookEditForm.valid ? null : ''">Edit!</button>
+</form>

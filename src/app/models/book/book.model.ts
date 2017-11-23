@@ -25,11 +25,6 @@ export class BookModel implements BookInterface {
     return null;
   }
 
-  public static query() {
-    let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
-    return books;
-  }
-
   save() {
     let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
     books.forEach((item, index) => {
@@ -40,6 +35,19 @@ export class BookModel implements BookInterface {
     return true;
   }
 
+  public static query() {
+    let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
+    let bookModels:BookModel[] = []
+    for (let book of books) {
+      bookModels.push(new BookModel(book.image,
+                                    book.title,
+                                    book.description,
+                                    book.price,
+                                    book.upvotes));
+    }
+    return bookModels;
+  }
+  
   public static find(title: string) {
     let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
     for (let book of books) {
