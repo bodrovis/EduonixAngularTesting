@@ -39,6 +39,47 @@ describe('BookEditComponent', () => {
     component.bookEditForm.controls['price'].setValue(price);
   }
 
+  it('should have title error if less than 3 symbols provided',
+    fakeAsync(() => {
+      component.activeForm = 'templateDriven';
+      fixture.detectChanges();
+      let form = component.templateForm.form;
+      tick();
+      form.setValue({
+        title2: 'te',
+        image2: 'http://test.com',
+        description2: 'none',
+        price2: 100
+      });
+      form.controls.title2.markAsTouched();
+      fixture.detectChanges();
+      expect(form.controls.title2.errors).toBeTruthy();
+      expect(nativeElement.querySelector('.title-group').textContent).
+      toContain('Title must be at least 3 characters long.')
+    })
+  );
+
+  it('should have price error if incorrect value provided',
+    fakeAsync(() => {
+      component.activeForm = 'templateDriven';
+      fixture.detectChanges();
+      let form = component.templateForm.form;
+      tick();
+      form.setValue({
+        title2: 'test',
+        image2: 'http://test.com',
+        description2: 'none',
+        price2: '$100'
+      });
+      form.controls.title2.markAsTouched();
+      fixture.detectChanges();
+      expect(form.controls.price2.errors).toBeTruthy();
+
+      form.controls.price2.setValue('100');
+      expect(form.get('price2')).toBeTruthy();
+    })
+  );
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
