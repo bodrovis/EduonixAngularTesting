@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BookComponent } from './components/book/book.component';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { BookEditComponent } from './components/book-edit/book-edit.component';
+import { TreeComponent } from './tree/tree.component';
 
 const bookRoutes: Routes = [
   { path: 'books/:title', component: BookComponent },
@@ -24,7 +25,8 @@ const bookRoutes: Routes = [
     AppComponent,
     BookComponent,
     BookListComponent,
-    BookEditComponent
+    BookEditComponent,
+    TreeComponent
   ],
   imports: [
     RouterModule.forRoot(bookRoutes),

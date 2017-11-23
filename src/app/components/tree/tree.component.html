@@ -1,0 +1,35 @@
+<div *ngFor='let child of questions.children'>
+  <ng-container [ngTemplateOutlet]='resolveTemplate(child)'
+  [ngTemplateOutletContext]='{child: child, form: form}'></ng-container>
+</div>
+
+<ng-template #input let-child='child' let-form='form'>
+  <div class='col-12 form-group' [formGroup]='form'>
+    <label for='title2'>{{child.label}}</label>
+    <input [formControlName]='child.paramName'
+    [(ngModel)]='objectToFill[child.paramName]' class='title form-control'>
+  </div>
+</ng-template>
+
+<ng-template #checkbox let-child='child' let-form='form'>
+  <div class='col-12 form-check' [formGroup]='form'>
+    <label class='form-check-label'>
+    <input [formControlName]='child.paramName'
+    [(ngModel)]='objectToFill[child.paramName][child.value]' type='checkbox'
+    class='form-check-input'>
+  </div>
+</ng-template>
+
+<ng-template #select let-child='child' let-form='form'>
+  <div class='col-12 form-select' [formGroup]='form'>
+    <label class='form-check-label'>
+    <select [formControlName]='child.paramName'
+    [(ngModel)]='objectToFill[child.paramName]'>
+      <option *ngFor='let opt of child.options'
+      [selected]='objectToFill[child.paramName] == opt.paramName'
+      [value]='opt.paramName'>{{opt.label}}</option>
+    </select>
+  </div>
+</ng-template>
+
+<ng-template #empty></ng-template>

@@ -3,7 +3,9 @@ export interface BookInterface {
   title: string,
   description: string,
   price: number,
-  upvotes: number
+  upvotes: number,
+  genre?: object,
+  category?: string
 }
 
 export class BookModel implements BookInterface {
@@ -11,7 +13,9 @@ export class BookModel implements BookInterface {
     public title: string,
     public description: string,
     public price: number,
-    public upvotes: number = 0
+    public upvotes: number = 0,
+    public genre: object = {},
+    public category: string = 'not defined'
   ) { }
 
   destroy() {
@@ -43,7 +47,9 @@ export class BookModel implements BookInterface {
                                     book.title,
                                     book.description,
                                     book.price,
-                                    book.upvotes));
+                                    book.upvotes,
+                                    book.genre,
+                                    book.category));
     }
     return bookModels;
   }
@@ -55,7 +61,9 @@ export class BookModel implements BookInterface {
         book.title,
         book.description,
         book.price,
-        book.upvotes)
+        book.upvotes,
+        book.genre,
+        book.category)
       }
       return null;
     }
