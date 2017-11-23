@@ -47,7 +47,7 @@ export class BookModel implements BookInterface {
     }
     return bookModels;
   }
-  
+
   public static find(title: string) {
     let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
     for (let book of books) {

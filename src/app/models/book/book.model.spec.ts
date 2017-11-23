@@ -56,8 +56,8 @@ describe('BookModel', () => {
   });
 
   it('has localeStorage working', () => {
-    expect(localStorage.setItem('key', 'value')).toBe('value');
-    expect(localStorage.getItem('key')).toBe('value');
+    expect<any>(localStorage.setItem('key', 'value')).toBe('value');
+    expect<any>(localStorage.getItem('key')).toBe('value');
   });
 
   it('has a valid model', () => {
