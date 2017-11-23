@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { BookComponent } from './components/book/book.component';
 import { BookListComponent } from './components/book-list/book-list.component';
+import { BookEditComponent } from './components/book-edit/book-edit.component';
 
 const bookRoutes: Routes = [
   { path: 'books/:title', component: BookComponent },
@@ -22,7 +23,8 @@ const bookRoutes: Routes = [
   declarations: [
     AppComponent,
     BookComponent,
-    BookListComponent
+    BookListComponent,
+    BookEditComponent
   ],
   imports: [
     RouterModule.forRoot(bookRoutes),

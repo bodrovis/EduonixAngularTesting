@@ -25,7 +25,7 @@ export class BookModel implements BookInterface {
     return null;
   }
 
-  query() {
+  public static query() {
     let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
     return books;
   }
