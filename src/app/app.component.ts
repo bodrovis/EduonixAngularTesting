@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BookInterface, BookModel } from './models/book/book.model';
+import { CartService } from './services/cart/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,16 @@ export class AppComponent {
     15,
     0
   );
+
+  constructor(private cs: CartService) {
+    this.cs.query().subscribe((items:BookModel[]) => {
+      this.cart = items;
+    });
+
+    this.cs.addEmitted$.subscribe((item) => {
+      this.cart.push(item);
+    });
+  }
 
   addToCart(book:BookModel) {
     this.cart.push(book);

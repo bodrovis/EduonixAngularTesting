@@ -18,6 +18,12 @@ export class BookModel implements BookInterface {
     public category: string = 'not defined'
   ) { }
 
+  getData(): object {
+    const result = {};
+    Object.keys(this).map(key => result[key] = this[key]);
+    return result;
+  }
+
   destroy() {
     let books:Array<BookModel> = JSON.parse(localStorage.getItem('books') || '[]');
     books.forEach((item, index) => {
