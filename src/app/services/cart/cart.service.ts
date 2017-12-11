@@ -3,13 +3,16 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { BookModel } from  '../../models/book/book.model';
 import { Subject } from 'rxjs/Subject';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class CartService {
   private emitAddToCart = new Subject<any>();
   addEmitted$ = this.emitAddToCart.asObservable();
+  hardCodedUrl = 'https://firestore.googleapis.com/v1beta1/projects/angular-tdd-eduonix/databases/(default)/documents/cart?key=AIzaSyCZuCInoEdZny7MXIVTs3TgMVXgoIjWjns'
 
-  constructor(private db: AngularFirestore) { }
+
+  constructor(private db: AngularFirestore, private http: Http) { }
 
   query() {
     // promise
@@ -24,5 +27,9 @@ export class CartService {
 
   emitChange(book: BookModel) {
     this.emitAddToCart.next(book);
+  }
+
+  httpCall() {
+    return this.http.get(this.hardCodedUrl);
   }
 }

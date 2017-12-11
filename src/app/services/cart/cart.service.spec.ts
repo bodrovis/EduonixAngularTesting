@@ -4,6 +4,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule, AngularFirestore } from 'angularfire2/firestore';
 import { CartList } from './cart.service.mock';
 import { Observable } from 'rxjs';
+import { MockBackend } from '@angular/http/testing';
+import { Http, ConnectionBackend, BaseRequestOptions, Response } from '@angular/http';
 
 export const environment = {
   production: false,
@@ -35,33 +37,96 @@ describe('CartService', () => {
       ],
       providers: [
         CartService,
-        { provide: AngularFirestore, useValue: AngularFirestoreMock }
-      ]
-    });
-  });
-
-  it('should be created', inject([CartService], (service: CartService) => {
-    expect(service).toBeTruthy();
-  }));
-
-  it('should have add method defined', inject([CartService], (service: CartService) => {
-    expect(service.add).toBeTruthy();
-  }));
-
-  it('should have query method defined', inject([CartService], (service: CartService) => {
-    expect(service.query).toBeTruthy();
-  }));
-
-  it('should have query method working', inject([CartService], fakeAsync((service: CartService) => {
-    let all$ = service.query();
-    let response;
-
-    all$.subscribe((items) => {
-      response = items;
+        { provide: AngularFirestore, useValue: AngularFirestoreMock },
+        BaseRequestOptions,
+        MockBackend,
+        {
+          provide: Http,
+          useFactory: (backend: ConnectionBackend,
+            defaultOptions: BaseRequestOptions) => {
+              return new Http(backend, defaultOptions);
+            },
+            deps: [ MockBackend, BaseRequestOptions ]
+          }
+        ]
+      });
     });
 
-    tick();
+    it('should have callHttp working', inject([CartService, MockBackend],
+      fakeAsync((service: CartService, backend: MockBackend) => {
+        let resFromBackEnd;
 
-    expect(response).toBe(CartList);
-  })));
-});
+        let response = {
+          "documents": [
+            {
+              "name": "projects/angular-tdd-eduonix/databases/(default)/documents/cart/sxS5BymhG2VNX3UYUOrX",
+              "fields": {
+                "genre": {
+                  "mapValue": {}
+                },
+                "category": {
+                  "stringValue": "not defined"
+                },
+                "price": {
+                  "integerValue": "100.100"
+                },
+                "title": {
+                  "stringValue": "Hello world"
+                },
+                "description": {
+                  "stringValue": "Hello world description"
+                },
+                "image": {
+                  "stringValue": "https://www.planwallpaper.com/static/images/Benjamin-Blonder.png"
+                },
+                "upvotes": {
+                  "integerValue": "0"
+                }
+              },
+              "createTime": "2017-12-08T14:16:52.061390Z",
+              "updateTime": "2017-12-08T14:16:52.061390Z"
+            }]
+          };
+
+          backend.connections.subscribe(connection => {
+            connection.mockRespond(new Response(<any>{
+              body: JSON.stringify(response)
+            }));
+          });
+
+          service.httpCall().subscribe(data => {
+            resFromBackEnd = data;
+          });
+
+          tick();
+
+          let jsonFromBackEnd = JSON.parse(resFromBackEnd.text());
+          expect(jsonFromBackEnd).toEqual(response);
+        })
+      ));
+
+      it('should be created', inject([CartService], (service: CartService) => {
+        expect(service).toBeTruthy();
+      }));
+
+      it('should have add method defined', inject([CartService], (service: CartService) => {
+        expect(service.add).toBeTruthy();
+      }));
+
+      it('should have query method defined', inject([CartService], (service: CartService) => {
+        expect(service.query).toBeTruthy();
+      }));
+
+      it('should have query method working', inject([CartService], fakeAsync((service: CartService) => {
+        let all$ = service.query();
+        let response;
+
+        all$.subscribe((items) => {
+          response = items;
+        });
+
+        tick();
+
+        expect(response).toBe(CartList);
+      })));
+    });
