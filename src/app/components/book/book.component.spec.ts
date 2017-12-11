@@ -1,7 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import * as faker from 'faker';
+import { RouterTestingModule } from '@angular/router/testing';
 import { BookComponent } from './book.component';
 import { BookModel } from '../../models/book/book.model';
+import { CartServiceMock } from '../../services/cart/cart.service.mock';
+import { CartService } from '../../services/cart/cart.service';
 
 describe('BookComponent', () => {
   let component: BookComponent;
@@ -11,7 +14,11 @@ describe('BookComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BookComponent ]
+      declarations: [ BookComponent ],
+      imports: [ RouterTestingModule ],
+      providers: [
+        { provide: CartService, useClass: CartServiceMock }
+      ]
     })
     .compileComponents();
   }));
