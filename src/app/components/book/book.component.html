@@ -13,6 +13,10 @@
     </div>
 
     <div class="row">
+      <h4 class="new-price" [innerHTML]='book.price | discount: 20'></h4>
+    </div>
+
+    <div class="row">
       <h4 class="book-upvotes">Upvotes: {{book.upvotes}}</h4>
     </div>
 

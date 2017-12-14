@@ -5,13 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartServiceMock, CartList } from './services/cart/cart.service.mock';
 import { CartService } from './services/cart/cart.service';
 import * as faker from 'faker';
+import { DiscountFormatterPipe } from './pipes/discount-formatter/discount-formatter.pipe';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        BookComponent
+        BookComponent,
+        DiscountFormatterPipe
       ],
       imports: [
         RouterTestingModule

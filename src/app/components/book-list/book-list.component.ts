@@ -7,7 +7,7 @@ import { BookModel } from '../../models/book/book.model';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit {
-  books: BookModel[];
+  books: BookModel[] = [];
 
   constructor() {
     this.books = BookModel.query();
