@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { BookInterface, BookModel } from './models/book/book.model';
 import { CartService } from './services/cart/cart.service';
 
@@ -19,10 +19,14 @@ export class AppComponent {
     0
   );
 
-  constructor(private cs: CartService) {
-    this.cs.query().subscribe((items:BookModel[]) => {
-      this.cart = items;
-    });
+  constructor(private cs: CartService, private ngZone: NgZone) {
+    //this.ngZone.runOutsideAngular(() => {
+      //this.ngZone.run(() => {
+        this.cs.query().subscribe((items:BookModel[]) => {
+          this.cart = items;
+        });
+      //});
+    //});
 
     this.cs.addEmitted$.subscribe((item) => {
       this.cart.push(item);
