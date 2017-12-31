@@ -11,14 +11,6 @@ export class AppComponent {
   title = 'app';
   public cart:BookModel[] = [];
 
-  public book: BookModel = new BookModel(
-    'https://upload.wikimedia.org/wikipedia/commons/1/1d/Tom_Sawyer_1876_frontispiece.jpg',
-    'Tom Sawyer',
-    `Thomas "Tom" Sawyer is the title character of the Mark Twain novel The Adventures of Tom Sawyer`,
-    15,
-    0
-  );
-
   constructor(private cs: CartService, private ngZone: NgZone) {
     //this.ngZone.runOutsideAngular(() => {
       //this.ngZone.run(() => {

@@ -19,6 +19,7 @@ import { CartService } from './services/cart/cart.service';
 import { DiscountFormatterPipe } from './pipes/discount-formatter/discount-formatter.pipe';
 
 const bookRoutes: Routes = [
+  { path: 'books/new', component: BookEditComponent },
   { path: 'books/:title', component: BookComponent },
   { path: 'books/:title/edit', component: BookEditComponent },
   { path: 'books', component: BookListComponent },
