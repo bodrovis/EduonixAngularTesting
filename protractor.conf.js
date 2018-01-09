@@ -4,16 +4,6 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
-  plugins: [{
-    package: 'protractor-screenshoter-plugin',
-    screenshotPath: './REPORTS/e2e',
-    screenshotOnExpect: 'none',
-    screenshotOnSpec: 'failure+success',
-    withLogs: true,
-    writeReportFreq: 'asap',
-    imageToAscii: 'none',
-    clearFoldersBeforeTest: true
-  }],
   allScriptsTimeout: 11000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
@@ -21,7 +11,9 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  directConnect: true,
+  //directConnect: true,
+  sauceUser: 'bodrovis_ed',
+  sauceKey: '97a3d094-9f03-4c2d-80fb-fe98887d999d',
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
   //SELENIUM_PROMISE_MANAGER: false,
@@ -35,8 +27,5 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-
-    return global.browser.getProcessedConfig().then(function(config) {
-    });
   }
 };
