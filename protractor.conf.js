@@ -4,6 +4,16 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
+  plugins: [{
+    package: 'protractor-screenshoter-plugin',
+    screenshotPath: './REPORTS/e2e',
+    screenshotOnExpect: 'none',
+    screenshotOnSpec: 'failure+success',
+    withLogs: true,
+    writeReportFreq: 'asap',
+    imageToAscii: 'failure+success',
+    clearFoldersBeforeTest: true
+  }],
   allScriptsTimeout: 11000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
