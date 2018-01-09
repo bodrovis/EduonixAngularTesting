@@ -11,6 +11,18 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
+  multiCapabilities: [{
+    'browserName': 'firefox',
+    'platform': 'macOS 10.13',
+    'version': '55',
+    maxInstances: 1    //how many browsers will run
+  },
+  {
+    'browserName': 'chrome',
+    'platform': 'macOS 10.13',
+    'version': '60',
+    maxInstances: 1    //how many browsers will run
+  }],
   //directConnect: true,
   sauceUser: 'bodrovis_ed',
   sauceKey: '97a3d094-9f03-4c2d-80fb-fe98887d999d',
