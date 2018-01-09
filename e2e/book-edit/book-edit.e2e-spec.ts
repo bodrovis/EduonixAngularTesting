@@ -11,15 +11,16 @@ describe('Book edit page', () => {
     this.bookEdit = new BookEditPage();
   });
 
-  it('should have reactive form working', () => {
+  it('should have reactive form working', async () => {
+    //debugger;
     let image = faker.image.image();
     let title = faker.lorem.sentence();
     let description = faker.lorem.sentence();
 
-    this.bookEdit.setTitle(title);
-    this.bookEdit.setImage(image);
-    this.bookEdit.setDescription(description);
-    this.bookEdit.submitReactive();
+    await this.bookEdit.setTitle(title);
+    await this.bookEdit.setImage(image);
+    await this.bookEdit.setDescription(description);
+    await this.bookEdit.submitReactive();
 
     let bookPage = new BookPage(title);
     expect(bookPage.titleElement.getText()).toEqual(title);
