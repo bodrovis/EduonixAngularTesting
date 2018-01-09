@@ -11,7 +11,7 @@ exports.config = {
     screenshotOnSpec: 'failure+success',
     withLogs: true,
     writeReportFreq: 'asap',
-    imageToAscii: 'failure+success',
+    imageToAscii: 'none',
     clearFoldersBeforeTest: true
   }],
   allScriptsTimeout: 11000,
@@ -35,5 +35,8 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+
+    return global.browser.getProcessedConfig().then(function(config) {
+    });
   }
 };
