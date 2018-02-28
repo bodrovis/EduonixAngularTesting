@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="col-12">
+    <h1>Edit a book {{book.title}}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-4">
+    <a [routerLink]='' (click)='activeForm="reactive"'>Reactive Form</a>
+  </div>
+
+  <div class="col-4">
+    <a [routerLink]='' (click)='activeForm="templateDriven"'>Template Form</a>
+  </div>
+
+  <div class="col-4">
+    <a [routerLink]='' (click)='activeForm="dynamicForm"'>Dynamic Form</a>
+  </div>
+</div>
+
+<form *ngIf='activeForm == "reactive"'
+[formGroup]='bookEditForm' (ngSubmit)='submitReactiveForm()' novalidate>
+  <div class="row mt-3">
+    <div class="col-6">
+      Reactive Form
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 form-group">
+      <label for="title">Title</label>
+      <input formControlName='title' type='text' name='title'
+      class='title form-control'
+      [ngClass]='{ "is-invalid": bookEditForm.controls["title"].touched &&
+     bookEditForm.controls["title"].errors }'>
+     <div class="invalid-feedback">
+       Please provide a valid title!
+     </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="image">Image URL</label>
+      <input formControlName='image' type='text' name='image'
+      class='image form-control'
+      [ngClass]='{ "is-invalid": bookEditForm.controls["image"].touched &&
+     bookEditForm.controls["image"].errors }'>
+     <div class="invalid-feedback">
+       Please provide a valid image URL!
+     </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="description">Description</label>
+      <textarea formControlName='description'
+      class='description form-control'></textarea>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="price">Price</label>
+      <input formControlName='price' type='number' name='price'
+      class='price form-control'>
+    </div>
+  </div>
+
+  <button type="submit" id="reactiveSubmitButton" class="btn btn-primary"
+  [attr.disabled]="bookEditForm.valid ? null : ''">Edit!</button>
+</form>
+
+<form *ngIf='activeForm == "templateDriven"' #templateForm='ngForm'>
+  <div class="row mt-3">
+    <div class="col-6">
+      Template-Driven Form
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 form-group title-group">
+      <label for="title2">Title</label>
+      <input [(ngModel)]='book.title' name='title2' type='text' id='title2'
+      class='title form-control' #title2='ngModel' minlength='3' required>
+      <div *ngIf='!title2.valid && (title2.dirty || title2.touched)'
+      class='invalid-feedback' style='display: block;'>
+        <div *ngIf='title2?.errors?.required'>
+          Title is required.
+        </div>
+        <div *ngIf='title2?.errors?.minlength'>
+          Title must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="image2">Image URL</label>
+      <input [(ngModel)]='book.image' name='image2' type='text' id='image2'
+      class='image form-control' #image2='ngModel' required>
+      <div *ngIf='!image2.valid && (image2.dirty || image2.touched)'
+      class='invalid-feedback' style='display: block;'>
+        <div *ngIf='image2?.errors?.required'>
+          Image URL is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for='description2'>Description</label>
+      <textarea [(ngModel)]='book.description' #description2='ngModel'
+      name='description2' class='description form-control'></textarea>
+    </div>
+
+    <div class="col-12 form-group price-group">
+      <label for="price2">Price</label>
+
+      <input [(ngModel)]='book.price' pattern='^\d+(,\d{3})*(\.\d*)?$'
+      name='price2' id='price2' type='text' class='price' #price2='ngModel' required>
+      <div *ngIf='!price2.valid && (price2.dirty || price2.touched)' class="invalid-feedback" style='display: block;'>
+        <div *ngIf="price2.errors.required">
+          Please set the price
+        </div>
+        <div *ngIf="price2.errors.pattern">
+          Please follow the format, for example 1000,000.15
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type='submit' class='btn btn-primary'>Edit!</button>
+</form>
+
+<form *ngIf='activeForm == "dynamicForm"'
+[formGroup]='bookEditDynamic'
+(ngSubmit)='submitTemplateForm()' #dynamicForm='ngForm'>
+
+  Dynamic form
+  <tree [(question)]='question'
+  [(objectToFill)]='book' [(form)]='bookEditDynamic'></tree>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+
+  <div class='row'>
+    {{ book | json}}
+  </div>
+</form>
