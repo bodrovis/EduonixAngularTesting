@@ -70,7 +70,7 @@ describe('BookComponent', () => {
   it('upvote invokes the component function', () => {
     let spy = spyOn(component, 'upvote');
     let button = nativeElement.querySelector('button.upvote');
-    //button.click();
-    //expect(spy).toHaveBeenCalled();
+    button.click();
+    expect(spy).toHaveBeenCalled();
   });
 });
