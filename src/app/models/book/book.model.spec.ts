@@ -12,7 +12,7 @@ describe('BookModel', () => {
 
   beforeEach(() => {
     image = faker.image.image();
-    title = faker.lorem.words().join();
+    title = faker.lorem.sentence();
     description = faker.lorem.sentence();
     price = faker.commerce.price();
     upvotes = faker.random.number();
