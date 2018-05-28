@@ -21,7 +21,7 @@ describe('BookComponent', () => {
     component = fixture.componentInstance;
     book = new BookModel(
       faker.image.image(),
-      faker.lorem.words().join(),
+      faker.lorem.sentence(),
       faker.lorem.paragraph(),
       1234.55,
       0
